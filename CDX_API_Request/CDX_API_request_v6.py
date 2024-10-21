@@ -23,8 +23,8 @@ tags = ['politica', 'chega', 'ventura']
 data = []
 
 # Define the maximum number of retries
-max_retries = 3
-delay_between_requests = 30 # seconds
+max_retries = 2
+delay_between_requests = 5 # seconds
 
 # Function to handle requests with retries and delays
 def fetch_data_w_retries(url, params, retries=max_retries):
@@ -47,7 +47,7 @@ def fetch_data_w_retries(url, params, retries=max_retries):
             print(f"Request failed: {e}. Attempt {attempt + 1} of {retries}")
             if attempt < retries - 1:
                 print(f"Retrieved {len(data)} records.")
-                time.sleep(delay_between_requests**(1+attempt/4)) # Wait before retrying
+                time.sleep(delay_between_requests) # Wait before retrying
             else:
                 print("Max retries reached. Skipping.")
                 return None
@@ -62,7 +62,7 @@ for i in newsp:
         'to': '2020',
         'filter': 'original:'+tag,
         'output': 'json',
-        'limit': '100'
+        'limit': '500'
         }
         
         response = fetch_data_w_retries(cdx_url, params)
@@ -74,8 +74,16 @@ for i in newsp:
                     for line in response.text.splitlines():
                         try:
                             record = json.loads(line)
-                            if record['status'] == '200':
+
+                            status = record.get('status')
+
+                            if status == '200':
                                 data.append(record)
+                            else:
+                                if status is None:
+                                    print(f"Record missing 'status' field: {record}")
+                                else:
+                                    print(f"Record with status '{status}': {record}")
                         except json.JSONDecodeError as e:
                             print(f"Error parsing line: {line}")
                             print(f"JSONDecodeError: {e}")
@@ -86,6 +94,8 @@ for i in newsp:
                     print("Response is not in NDJSON format.")
             else:
                 print(f"Failed to retrieve data: {response.status_code}")
+        else:
+            print("Failed to retrieve data.")
 
 # Print the number of records retrieved
 print(f"Retrieved {len(data)} records.")
