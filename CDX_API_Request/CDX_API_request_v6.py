@@ -9,15 +9,20 @@ cdx_url = "https://arquivo.pt/wayback/cdx"
 # Newspapers to search
 newsp = ['cmjornal.pt/*', 
          'dn.pt/*',
+         'expresso.pt/*',
          'folhanacional.pt/*',
          'jn.pt/*',
          'ionline.sapo.pt/*',   
          'sol.sapo.pt/*',
-         'expresso.pt/*',
+         'observador.pt/*',
+         'publico.pt/*',
+         'sabado.pt/*',
+         'sapo.pt/*',
+         'visao.pt/*',
          ]
 
 # Tags to search within newspaper's links
-tags = ['politica', 'chega', 'ventura']
+tags = ['-chega-', 'ventura']
 
 # Process the response into a list
 data = []
@@ -58,11 +63,11 @@ for i in newsp:
         params = {
         'url': i,
         'fields': 'url,timestamp,status',
-        'from': '2019',
-        'to': '2020',
+        'from': '20190101',
+        'to': '20200101',
         'filter': 'original:'+tag,
         'output': 'json',
-        'limit': '500'
+        'limit': '5000'
         }
         
         response = fetch_data_w_retries(cdx_url, params)
@@ -82,8 +87,12 @@ for i in newsp:
                             else:
                                 if status is None:
                                     print(f"Record missing 'status' field: {record}")
+                                    print(f"Retrieved {len(data)} records.")
+
                                 else:
                                     print(f"Record with status '{status}': {record}")
+                                    print(f"Retrieved {len(data)} records.")
+
                         except json.JSONDecodeError as e:
                             print(f"Error parsing line: {line}")
                             print(f"JSONDecodeError: {e}")
@@ -103,14 +112,3 @@ print(f"Retrieved {len(data)} records.")
 # Insert the new data into cdx_results.json
 with open("cdx_results.json", "w") as json_file:
     json.dump(data, json_file, indent=4)
-
-
-# 'folhanacional.pt/*',
-# 'jn.pt/*',
-# 'ionline.sapo.pt/*',
-# 'sol.sapo.pt/*',
-# 'observador.pt/*',
-# 'publico.pt/*',
-# 'sabado.pt/*',
-# 'sapo.pt/*',
-# 'visao.pt/*',

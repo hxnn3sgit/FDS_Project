@@ -62,7 +62,7 @@ for i in newsp:
         'to': '2020',
         'filter': 'original:'+tag,
         'output': 'json',
-        'limit': '100'
+        'limit': '10'
         }
         
         response = fetch_data_w_retries(cdx_url, params)

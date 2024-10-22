@@ -8,11 +8,17 @@ cdx_url = "https://arquivo.pt/wayback/cdx"
 params = {
     'url': 'publico.pt/*',
     'fields': 'url,timestamp,status',
-    'from': '20190101',
-    'to': '20190630',
     'filter': 'original:politica',
+    'from': '2017',
+    'to': '2020',
+    'filter': '!=timestamp:*2018',
+    # 'filter': 'timestamp:!=2017',
+    # 'filter': 'timestamp:!=2016',
+    # 'filter': 'timestamp:!=2015',
+    # 'filter': 'timestamp:!=2014',
+    # 'filter': 'timestamp:!=2013',
     'output': 'json',
-    'limit': '100'
+    'limit': '20000'
 }
 
 type(params)
@@ -30,11 +36,23 @@ if response.status_code == 200:
         for line in response.text.splitlines():
             try:
                 record = json.loads(line)
-                if record['status'] == '200':
+                status = record.get('status')
+                if status == '200':
                     data.append(record)
+                else:
+                    if status is None:
+                        print(f"Record missing 'status' field: {record}")
+                        print(f"Retrieved {len(data)} records.")
+
+                    else:
+                        print(f"Record with status '{status}': {record}")
+                        print(f"Retrieved {len(data)} records.")
             except json.JSONDecodeError as e:
                 print(f"Error parsing line: {line}")
                 print(f"JSONDecodeError: {e}")
+            except TypeError as e:
+                print(f"Unexpected data format: {line}")
+                print(f"TypeError: {e}")
     else:
         print("Response is not in NDJSON format.")
 else:
