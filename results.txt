@@ -1,4 +1,23 @@
 Fetching archived URL: https://web.archive.org/web/timestamp/original
+Heading found: Internet Archive Audio
+Heading found: Featured
+Heading found: Top
+Heading found: Images
+Heading found: Featured
+Heading found: Top
+Heading found: Software
+Heading found: Featured
+Heading found: Top
+Heading found: Texts
+Heading found: Featured
+Heading found: Top
+Heading found: Video
+Heading found: Featured
+Heading found: Top
+Heading found: Mobile Apps
+Heading found: Browser Extensions
+Heading found: Archive-It Subscription
+Heading found: Save Page Now
 Fetching archived URL: https://web.archive.org/web/20190101041210/https://www.publico.pt/
 Heading found: 
 

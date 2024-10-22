@@ -22,10 +22,10 @@ newsp = ['cmjornal.pt/*',
          ]
 
 # Tags to search within newspaper's links
-tags = ['-chega-', 'ventura']
+tags = ['-chega-', '-ventura-']
 
 # Process the response into a list
-data = []
+data = {}
 
 # Define the maximum number of retries
 max_retries = 2
@@ -45,7 +45,7 @@ def fetch_data_w_retries(url, params, retries=max_retries):
     """
     for attempt in range(retries):
         try:
-            response = requests.get(url, params=params, timeout=150)
+            response = requests.get(url, params=params, timeout=30)
             response.raise_for_status() # Raise an error for 4xx or 5xx responses
             return response
         except requests.exceptions.RequestException as e:
@@ -63,8 +63,8 @@ for i in newsp:
         params = {
         'url': i,
         'fields': 'url,timestamp,status',
-        'from': '20190101',
-        'to': '20200101',
+        'from': '20230101',
+        'to': '20240101',
         'filter': 'original:'+tag,
         'output': 'json',
         'limit': '5000'
