@@ -64,8 +64,8 @@ for i in newsp:
         params = {
         'url': i,
         'fields': 'url,timestamp,status',
-        'from': '2022',
-        'to': '2024',
+        'from': '2020',
+        'to': '2021',
         'filter': 'original:'+tag,
         'output': 'json',
         'limit': '5000'
