@@ -2,7 +2,6 @@ import requests
 import json
 import time
 
-start = time.time()
 
 # Define the API endpoint
 cdx_url = "https://arquivo.pt/wayback/cdx"
@@ -64,8 +63,8 @@ for i in newsp:
         params = {
         'url': i,
         'fields': 'url,timestamp,status',
-        'from': '2022',
-        'to': '2024',
+        'from': '20190101',
+        'to': '20200101',
         'filter': 'original:'+tag,
         'output': 'json',
         'limit': '5000'
@@ -110,10 +109,6 @@ for i in newsp:
 # Print the number of records retrieved
 print(f"Retrieved {len(data)} records.")
 
-
 # Insert the new data into cdx_results.json
 with open("cdx_results.json", "w") as json_file:
     json.dump(data, json_file, indent=4)
-
-
-print("--- %s seconds ---" % (time.time() - start))
